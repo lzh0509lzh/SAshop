@@ -252,5 +252,125 @@ namespace Fm.BLL{
         }
         #endregion
 
-	}
+        #region GetListByUserId
+        /// <summary>
+        /// 获得orderrecord数据列表(独立连接)
+        /// <param name="UserId"></param>
+        /// </summary>
+        public List<Fm.Entity.orderrecord> GetListByUserId(string UserId)
+        {
+            List<Fm.Entity.orderrecord> myList = new List<Fm.Entity.orderrecord>();
+            DBHelper myHelperMySQL = new DBHelper();
+            myHelperMySQL.connectionStr = MySQLConfig.ConnStringCenter;
+            try
+            {
+                myList = this.GetListByUserId(myHelperMySQL, UserId);
+            }
+            catch (Exception errorStr)
+            {
+                #region 出错打印日志
+                //打印日志-----------------------------------------------------------------
+
+                string MailContent = "服务器出现错误!" + ((char)13).ToString() + ((char)10).ToString() +
+                    "地址：" + HttpContext.Current.Request.ServerVariables.Get("LOCAL_ADDR").ToString() + ((char)13).ToString() +
+                    ((char)10).ToString() +
+                    "时间：" + DateTime.Now.ToString("yyyy-MM-dd") + ((char)13).ToString() + ((char)10).ToString() +
+                    "内容：" + errorStr.ToString() + ((char)13).ToString() + ((char)10).ToString() + " ";
+
+                //-------------------------------------------------------------------------------
+                #endregion
+            }
+            return myList;
+        }
+        /// <summary>
+        /// 获得orderrecord数据列表，(方法外传入连接对象，需要人工关闭连接)
+        /// <param name="myHelperMySQL">自定义数据连接对象实例</param>
+        /// <param name="UserId"></param>
+        /// </summary>
+        public List<Fm.Entity.orderrecord> GetListByUserId(DBHelper myHelperMySQL, string UserId)
+        {
+            List<Fm.Entity.orderrecord> myList = new List<Fm.Entity.orderrecord>();
+
+            //字段
+            string fieldSelect = "";
+            fieldSelect = "a.OrderId, a.PerName, a.Address,a.Mobile,a.Stateid,a.PostAmount,a.Amount";
+
+            //条件
+            string strWhere = "UserId=@UserId";
+            //排序
+            string fieldOrder = "createdate desc";
+            //参数
+            MySqlParameter[] parms =
+            {
+                new MySqlParameter("UserId", UserId)
+            };
+
+            myList = dal.GetList(myHelperMySQL, 0, fieldSelect, strWhere, fieldOrder, parms);
+
+            return myList;
+        }
+        #endregion
+
+        #region UpdateStateid
+        /// <summary>
+        /// 更新orderrecord指定字段(独立连接)
+        /// </summary>
+        /// <param name="OrderId">条件</param>
+        /// <param name="Stateid">值1</param>
+        /// <returns>生效记录数</returns>
+        public int UpdateStateid(string OrderId, string Stateid)
+        {
+            int iNum = 0;
+            DBHelper myHelperMySQL = new DBHelper();
+            myHelperMySQL.connectionStr = MySQLConfig.ConnStringCenter;
+            try
+            {
+                iNum = this.UpdateStateid(myHelperMySQL, OrderId, Stateid);
+            }
+            catch (Exception errorStr)
+            {
+                #region 出错打印日志
+                //打印日志-----------------------------------------------------------------
+
+                string MailContent = "服务器出现错误!" + ((char)13).ToString() + ((char)10).ToString() +
+                    "地址：" + HttpContext.Current.Request.ServerVariables.Get("LOCAL_ADDR").ToString() + ((char)13).ToString() +
+                    ((char)10).ToString() +
+                    "时间：" + DateTime.Now.ToString("yyyy-MM-dd") + ((char)13).ToString() + ((char)10).ToString() +
+                    "内容：" + errorStr.ToString() + ((char)13).ToString() + ((char)10).ToString() + " ";
+
+                //-------------------------------------------------------------------------------
+                #endregion
+            }
+            return iNum;
+        }
+        /// <summary>
+        /// 更新orderrecord指定字段，(方法外传入连接对象，需要人工关闭连接)
+        /// </summary>
+        /// <param name="myDbHelperC">自定义数据连接对象实例</param>
+        /// <param name="OrderId">条件</param>
+        /// <param name="Stateid">值1</param>
+        /// <returns>生效记录数</returns>
+        public int UpdateStateid(DBHelper myHelperMySQL, string OrderId, string Stateid)
+        {
+            int iNum = 0;
+            List<Fm.Entity.orderrecord> myList = new List<Fm.Entity.orderrecord>();
+
+            //条件
+            string strWhere = "OrderId=@OrderId";
+
+            //字段
+            string fieldUpdate = "Stateid=@Stateid";
+            //参数
+
+            MySqlParameter[] parms =
+            {
+                new MySqlParameter("OrderId",OrderId),
+                new MySqlParameter("Stateid",Stateid)
+            };
+
+            iNum = dal.Update(myHelperMySQL, strWhere, fieldUpdate, parms);
+            return iNum;
+        }
+        #endregion
+    }
 }

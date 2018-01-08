@@ -252,19 +252,19 @@ namespace Fm.BLL{
         }
         #endregion
 
-        #region GetListCustomByXxx 方法，根据Xxx取出  信息(自定义字段)
+
+        #region GetList方法，获取产品列表
         /// <summary>
         /// 获得product_info数据列表(独立连接)
-        /// <param name="Xxx"></param>
         /// </summary>
-        public List<Fm.Entity.product_info> GetList(string stateid)
+        public List<Fm.Entity.product_info> GetList()
         {
             List<Fm.Entity.product_info> myList = new List<Fm.Entity.product_info>();
             DBHelper myHelperMySQL = new DBHelper();
             myHelperMySQL.connectionStr = MySQLConfig.ConnStringCenter;
             try
             {
-                myList = this.GetList(myHelperMySQL, stateid);
+                myList = this.GetList(myHelperMySQL);
             }
             catch (Exception errorStr)
             {
@@ -285,9 +285,8 @@ namespace Fm.BLL{
         /// <summary>
         /// 获得product_info数据列表，(方法外传入连接对象，需要人工关闭连接)
         /// <param name="myHelperMySQL">自定义数据连接对象实例</param>
-        /// <param name="Xxx"></param>
         /// </summary>
-        public List<Fm.Entity.product_info> GetList(DBHelper myHelperMySQL, string stateid)
+        public List<Fm.Entity.product_info> GetList(DBHelper myHelperMySQL)
         {
             List<Fm.Entity.product_info> myList = new List<Fm.Entity.product_info>();
 
@@ -302,7 +301,7 @@ namespace Fm.BLL{
             //参数
             MySqlParameter[] parms =
             {
-                new MySqlParameter("stateid", stateid)
+                new MySqlParameter("stateid", 1)
             };
 
             myList = dal.GetList(myHelperMySQL, 0, fieldSelect, strWhere, fieldOrder, parms);
@@ -310,5 +309,66 @@ namespace Fm.BLL{
             return myList;
         }
         #endregion
+
+        #region GetListByTypeId方法，根据TypeId获取产品列表
+        /// <summary>
+        /// 获得product_info数据列表(独立连接)
+        /// <param name="TypeId"></param>
+        /// </summary>
+        public List<Fm.Entity.product_info> GetListByTypeId(string TypeId)
+        {
+            List<Fm.Entity.product_info> myList = new List<Fm.Entity.product_info>();
+            DBHelper myHelperMySQL = new DBHelper();
+            myHelperMySQL.connectionStr = MySQLConfig.ConnStringCenter;
+            try
+            {
+                myList = this.GetListByTypeId(myHelperMySQL, TypeId);
+            }
+            catch (Exception errorStr)
+            {
+                #region 出错打印日志
+                //打印日志-----------------------------------------------------------------
+
+                string MailContent = "服务器出现错误!" + ((char)13).ToString() + ((char)10).ToString() +
+                    "地址：" + HttpContext.Current.Request.ServerVariables.Get("LOCAL_ADDR").ToString() + ((char)13).ToString() +
+                    ((char)10).ToString() +
+                    "时间：" + DateTime.Now.ToString("yyyy-MM-dd") + ((char)13).ToString() + ((char)10).ToString() +
+                    "内容：" + errorStr.ToString() + ((char)13).ToString() + ((char)10).ToString() + " ";
+
+                //-------------------------------------------------------------------------------
+                #endregion
+            }
+            return myList;
+        }
+        /// <summary>
+        /// 获得product_info数据列表，(方法外传入连接对象，需要人工关闭连接)
+        /// <param name="myHelperMySQL">自定义数据连接对象实例</param>
+        /// <param name="TypeId"></param>
+        /// </summary>
+        public List<Fm.Entity.product_info> GetListByTypeId(DBHelper myHelperMySQL, string TypeId)
+        {
+            List<Fm.Entity.product_info> myList = new List<Fm.Entity.product_info>();
+
+            //字段
+            string fieldSelect = "";
+            fieldSelect = "a.ProductId, a.ProductName, a.ProductPrice ,a.MainImgUrl,a.StoreNum,a.SalesNum";
+
+            //条件
+            string strWhere = "TypeId=@TypeId";
+            //排序
+            string fieldOrder = "createdate desc";
+            //参数
+            MySqlParameter[] parms =
+            {
+                new MySqlParameter("TypeId", TypeId)
+            };
+
+            myList = dal.GetList(myHelperMySQL, 0, fieldSelect, strWhere, fieldOrder, parms);
+
+            return myList;
+        }
+        #endregion
+
+
     }
 }

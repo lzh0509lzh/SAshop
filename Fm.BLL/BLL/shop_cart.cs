@@ -252,5 +252,196 @@ namespace Fm.BLL{
         }
         #endregion
 
-	}
+
+
+        #region GetListByUserid 方法，根据 Userid 取出List
+        /// <summary>
+        /// 获得shop_cart数据列表(独立连接)
+        /// <param name="Xxx"></param>
+        /// </summary>
+        public List<Fm.Entity.shop_cart> GetListByUserid(string Userid)
+        {
+            List<Fm.Entity.shop_cart> myList = new List<Fm.Entity.shop_cart>();
+            DBHelper myHelperMySQL = new DBHelper();
+            myHelperMySQL.connectionStr = MySQLConfig.ConnStringCenter;
+            try
+            {
+                myList = this.GetListByUserid(myHelperMySQL, Userid);
+            }
+            catch (Exception errorStr)
+            {
+                #region 出错打印日志
+                //打印日志-----------------------------------------------------------------
+
+                string MailContent = "服务器出现错误!" + ((char)13).ToString() + ((char)10).ToString() +
+                    "地址：" + HttpContext.Current.Request.ServerVariables.Get("LOCAL_ADDR").ToString() + ((char)13).ToString() +
+                    ((char)10).ToString() +
+                    "时间：" + DateTime.Now.ToString("yyyy-MM-dd") + ((char)13).ToString() + ((char)10).ToString() +
+                    "内容：" + errorStr.ToString() + ((char)13).ToString() + ((char)10).ToString() + " ";
+
+                //-------------------------------------------------------------------------------
+                #endregion
+            }
+            return myList;
+        }
+        /// <summary>
+        /// 获得shop_cart数据列表，(方法外传入连接对象，需要人工关闭连接)
+        /// <param name="myHelperMySQL">自定义数据连接对象实例</param>
+        /// <param name="Xxx"></param>
+        /// </summary>
+        public List<Fm.Entity.shop_cart> GetListByUserid(DBHelper myHelperMySQL, string Userid)
+        {
+            List<Fm.Entity.shop_cart> myList = new List<Fm.Entity.shop_cart>();
+
+            //字段
+            string fieldSelect = "";
+            fieldSelect = "a.ProductId, a.CartNum ";
+
+            //条件
+            string strWhere = "Userid=@Userid";
+            //排序
+            string fieldOrder = "createdate desc";
+            //参数
+            MySqlParameter[] parms =
+            {
+                new MySqlParameter("Userid", Userid)
+            };
+
+            myList = dal.GetList(myHelperMySQL, 0, fieldSelect, strWhere, fieldOrder, parms);
+
+            return myList;
+        }
+        #endregion
+
+        #region UpdateCartNum 方法，更新指定字段
+        /// <summary>
+        /// 更新CartNum(独立连接)
+        /// </summary>
+        /// <param name="Cartid">条件</param>
+        /// <param name="CartNum">值</param>
+        /// <returns>生效记录数</returns>
+        public int UpdateCartNum(string Cartid, int CartNum)
+        {
+            int iNum = 0;
+            DBHelper myHelperMySQL = new DBHelper();
+            myHelperMySQL.connectionStr = MySQLConfig.ConnStringCenter;
+            try
+            {
+                iNum = this.UpdateCartNum(myHelperMySQL, Cartid, CartNum);
+            }
+            catch (Exception errorStr)
+            {
+                #region 出错打印日志
+                //打印日志-----------------------------------------------------------------
+
+                string MailContent = "服务器出现错误!" + ((char)13).ToString() + ((char)10).ToString() +
+                    "地址：" + HttpContext.Current.Request.ServerVariables.Get("LOCAL_ADDR").ToString() + ((char)13).ToString() +
+                    ((char)10).ToString() +
+                    "时间：" + DateTime.Now.ToString("yyyy-MM-dd") + ((char)13).ToString() + ((char)10).ToString() +
+                    "内容：" + errorStr.ToString() + ((char)13).ToString() + ((char)10).ToString() + " ";
+
+                //-------------------------------------------------------------------------------
+                #endregion
+            }
+            return iNum;
+        }
+        /// <summary>
+        /// 更新CartNum
+        /// </summary>
+        /// <param name="myHelperMySQL"></param>
+        /// <param name="Cartid">条件</param>
+        /// <param name="CartNum">值</param>
+        /// <returns>生效记录数</returns>
+        public int UpdateCartNum(DBHelper myHelperMySQL, string Cartid, int CartNum)
+        {
+            int iNum = 0;
+            List<Fm.Entity.shop_cart> myList = new List<Fm.Entity.shop_cart>();
+
+            //条件
+            string strWhere = "Cartid=@Cartid";
+
+            //字段
+            string fieldUpdate = "CartNum=@CartNum ";
+            //参数
+
+            MySqlParameter[] parms =
+            {
+                new MySqlParameter("Cartid",Cartid),
+                new MySqlParameter("CartNum",CartNum)
+            };
+
+            iNum = dal.Update(myHelperMySQL, strWhere, fieldUpdate, parms);
+            return iNum;
+
+
+        }
+        #endregion
+
+        #region DeleteByCartid 方法，删除指定条件记录
+        /// <summary>
+        /// 删除shop_cart指定条件记录(独立连接)
+        /// </summary>
+        /// <param name="Cartid">条件</param>
+        /// <returns>生效记录数</returns>
+        public int DeleteByCartid(string Cartid)
+        {
+            int iNum = 0;
+            DBHelper myHelperMySQL = new DBHelper();
+            myHelperMySQL.connectionStr = MySQLConfig.ConnStringCenter;
+            try
+            {
+                iNum = this.DeleteByCartid(myHelperMySQL, Cartid);
+            }
+            catch (Exception errorStr)
+            {
+                #region 出错打印日志
+                //打印日志-----------------------------------------------------------------
+
+                string MailContent = "服务器出现错误!" + ((char)13).ToString() + ((char)10).ToString() +
+                    "地址：" + HttpContext.Current.Request.ServerVariables.Get("LOCAL_ADDR").ToString() + ((char)13).ToString() +
+                    ((char)10).ToString() +
+                    "时间：" + DateTime.Now.ToString("yyyy-MM-dd") + ((char)13).ToString() + ((char)10).ToString() +
+                    "内容：" + errorStr.ToString() + ((char)13).ToString() + ((char)10).ToString() + " ";
+
+                //-------------------------------------------------------------------------------
+                #endregion
+            }
+            return iNum;
+        }
+        /// <summary>
+        /// 删除shop_cart指定条件记录，(方法外传入连接对象，需要人工关闭连接)
+        /// </summary>
+        /// <param name="myHelperMySQL">自定义数据连接对象实例</param>
+        /// <param name="Cartid">条件</param>
+        /// <returns>生效记录数</returns>
+        public int DeleteByCartid(DBHelper myHelperMySQL, string Cartid)
+        {
+            int iNum = 0;
+            List<Fm.Entity.shop_cart> myList = new List<Fm.Entity.shop_cart>();
+
+            //条件
+            string strWhere = "Cartid=@Cartid";
+
+            //参数
+            MySqlParameter[] parms =
+            {
+                new MySqlParameter("Cartid", Cartid)
+            };
+
+            iNum = dal.Delete(myHelperMySQL, strWhere, parms);
+            return iNum;
+
+
+        }
+        #endregion
+
+        #region ADD
+        public void Add(Fm.Entity.shop_cart model)
+        {
+            DBHelper myHelperMySQL = new DBHelper();
+            myHelperMySQL.connectionStr = MySQLConfig.ConnStringCenter;
+            dal.Add(myHelperMySQL, model);
+        }
+        #endregion
+    }
 }

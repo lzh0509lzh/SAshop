@@ -10,13 +10,182 @@ namespace SaAPI.Controllers
 {
     public class ValuesController : ApiController
     {
+        #region 商品相关
+        /// <summary>
+        /// 获取商品类型列表
+        /// </summary>
+        /// <returns>
+        ///{
+        ///    "List": [
+        ///        {
+        ///            "TypeId": 1,         类型编号
+        ///            "TypeName": "苹果",   商品类型名
+        ///            "TypePic": 1         类型图片地址
+        ///            "FatherTypeId":0     父类型Id（无父类型默认为0）
+        ///        }
+        ///    ],
+        ///    "Result": true,
+        ///    "Msg": ""
+        ///}
+        /// </returns>
         [HttpPost]
-        [Route("Test/{id}")]        
-        public IHttpActionResult Test(int id)
+        [Route("SevenApple/GetProductType")]
+        public IHttpActionResult GetProductType()
         {
             LzHandle Handle = new LzHandle();
-            string strJson = Handle.GetProductinfo();
+            string strJson = Handle.GetProductType();
             return Ok(strJson);
         }
+        /// <summary>
+        /// 展示商品列表
+        /// </summary>
+        /// <returns>
+        /// {
+        ///     "List":[
+        ///         {
+        ///             "ProductId":""          商品编号
+        ///             "ProductName":""        商品名称
+        ///             "ProductPrice":19.9     标价
+        ///             "MainImgUrl":""         商品图片
+        ///             "StoreNum":10           商品库存
+        ///             "SalesNum":5            商品销量
+        ///             "TypeId":123            商品类型Id
+        ///             "Specifications":""     商品规格
+        ///             "ProductWeight":""      商品单位重量(kg）
+        ///             "ProductDetail":""      商品描述
+        ///             "MadeFactor":""         所属公司
+        ///             "MadeHome":""           商品产地
+        ///             "Operator":""           操作人（默认为Admin）
+        ///             "StateId":1             用户状态（默认为1）
+        ///             "CreateDate":""         创建时间
+        ///             "RefreshDate":""        更新时间
+        ///         }
+        ///     ]
+        /// }
+        /// </returns>
+        [HttpPost]
+        [Route("SevenApple/GetProductList")]        
+        public IHttpActionResult GetProductList()
+        {
+            LzHandle Handle = new LzHandle();
+            string strJson = Handle.GetProductList();
+            return Ok(strJson);
+        }
+
+        /// <summary>
+        /// 根据类型查询商品列表
+        /// </summary>
+        /// <returns>
+        /// {
+        ///     "List":[
+        ///         {
+        ///             "ProductId":""          商品编号
+        ///             "ProductName":""        商品名称
+        ///             "ProductPrice":19.9     标价
+        ///             "MainImgUrl":""         商品图片
+        ///             "StoreNum":10           商品库存
+        ///             "SalesNum":5            商品销量
+        ///             "TypeId":123            商品类型Id
+        ///             "Specifications":""     商品规格
+        ///             "ProductWeight":""      商品单位重量(kg）
+        ///             "ProductDetail":""      商品描述
+        ///             "MadeFactor":""         所属公司
+        ///             "MadeHome":""           商品产地
+        ///             "Operator":""           操作人（默认为Admin）
+        ///             "StateId":1             用户状态（默认为1）
+        ///             "CreateDate":""         创建时间
+        ///             "RefreshDate":""        更新时间
+        ///         }
+        ///     ]
+        /// }
+        /// </returns>
+        [HttpPost]
+        [Route("SevenApple/GetProductListByTypeId")]
+        public IHttpActionResult GetProductListByTypeId(string TypeId)
+        {
+            LzHandle Handle = new LzHandle();
+            string strJson = Handle.GetProductListByTypeId(TypeId);
+            return Ok(strJson);
+        }
+        #endregion
+
+        #region 订单相关
+        [HttpPost]
+        [Route("SevenApple/GetOrderListByUserId")]
+        public IHttpActionResult GetOrderListByUserId(string UserId)
+        {
+            LzHandle Handle = new LzHandle();
+            string strJson = Handle.GetListByUserId(UserId);
+            return Ok(strJson);
+        }
+
+        [HttpPost]
+        [Route("SevenApple/GetDetailByOrderId")]
+        public IHttpActionResult GetDetailByOrderId(string OrderId)
+        {
+            LzHandle Handle = new LzHandle();
+            string strJson = Handle.GetDetailByOrderId(OrderId);
+            return Ok(strJson);
+        }
+
+        [HttpPost]
+        [Route("SevenApple/UpdateStateid")]
+        public IHttpActionResult UpdateStateid(string OrderId, string Stateid)
+        {
+            LzHandle Handle = new LzHandle();
+            string strJson = Handle.UpdateStateid(OrderId, Stateid);
+            return Ok(strJson);
+        }
+        #endregion
+
+        #region 购物车相关
+        [HttpPost]
+        [Route("SevenApple/GetCartListByUserid")]
+        public IHttpActionResult GetCartListByUserid(string UserId)
+        {
+            LzHandle Handle = new LzHandle();
+            string strJson = Handle.GetListByUserid(UserId);
+            return Ok(strJson);
+        }
+
+        [HttpPost]
+        [Route("SevenApple/UpdateCartNum")]
+        public IHttpActionResult UpdateCartNum(string Cartid, int CartNum)
+        {
+            LzHandle Handle = new LzHandle();
+            string strJson = Handle.UpdateCartNum(Cartid, CartNum);
+            return Ok(strJson);
+        }
+
+        [HttpPost]
+        [Route("SevenApple/AddCart")]
+        public IHttpActionResult AddCart(string MJson)
+        {
+            LzHandle Handle = new LzHandle();
+            string strJson = Handle.AddCart(MJson);
+            return Ok(strJson);
+        }
+        #endregion
+
+        #region 收货地址相关
+        [HttpPost]
+        [Route("SevenApple/GetAddressListByUserid")]
+        public IHttpActionResult GetAddressListByUserid(string UserId)
+        {
+            LzHandle Handle = new LzHandle();
+            string strJson = Handle.GetAddressListByUserid(UserId);
+            return Ok(strJson);
+        }
+
+        [HttpPost]
+        [Route("SevenApple/UpdateAll")]
+        public IHttpActionResult UpdateAll(string MJson)
+        {
+            LzHandle Handle = new LzHandle();
+            string strJson = Handle.UpdateAll(MJson);
+            return Ok(strJson);
+        }
+
+        #endregion
     }
 }
