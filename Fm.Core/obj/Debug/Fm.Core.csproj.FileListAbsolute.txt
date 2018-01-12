@@ -32,4 +32,3 @@ C:\Users\v-zhli3\Desktop\SevenApple\Fm.Core\bin\Debug\System.Net.Http.dll
 C:\Users\v-zhli3\Desktop\SevenApple\Fm.Core\bin\Debug\System.Net.Http.xml
 C:\Users\v-zhli3\Desktop\SevenApple\Fm.Core\obj\Debug\Fm.Core.dll
 C:\Users\v-zhli3\Desktop\SevenApple\Fm.Core\obj\Debug\Fm.Core.pdb
-C:\Users\v-zhli3\Desktop\SevenApple\Fm.Core\obj\Debug\Fm.Core.csprojResolveAssemblyReference.cache

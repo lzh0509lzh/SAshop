@@ -38,15 +38,16 @@ namespace Fm.BLL
         /// <summary>
         /// 展示商品相关列表
         /// </summary>
+        /// <param name="stateid">1全部，2首页</param>
         /// <returns></returns>
-        public string GetProductList()
+        public string GetProductList(int stateid)
         {
             string strJson = "";
             Entity.DataResponse_ProductInfo Response = new Entity.DataResponse_ProductInfo();
             BLL.product_info product_info_BLL = new product_info();
             try
             {
-                Response.List = product_info_BLL.GetList();
+                Response.List = product_info_BLL.GetList(stateid);
                 Response.Result = true;
                 Response.Msg = "";
             }

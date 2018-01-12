@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SaAPI.Context;
+using SaAPI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -18,6 +20,8 @@ namespace SaAPI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ServiceContext.Instance.AuthenticateManager = new AuthenticateManager();
         }
     }
 }

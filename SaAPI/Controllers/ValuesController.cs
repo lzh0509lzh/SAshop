@@ -39,6 +39,7 @@ namespace SaAPI.Controllers
         /// <summary>
         /// 展示商品列表
         /// </summary>
+        /// <param name="stateid">1全部，2首页</param>
         /// <returns>
         /// {
         ///     "List":[
@@ -64,11 +65,11 @@ namespace SaAPI.Controllers
         /// }
         /// </returns>
         [HttpPost]
-        [Route("SevenApple/GetProductList")]        
-        public IHttpActionResult GetProductList()
+        [Route("SevenApple/GetProductList")]
+        public IHttpActionResult GetProductList(int stateid)
         {
             LzHandle Handle = new LzHandle();
-            string strJson = Handle.GetProductList();
+            string strJson = Handle.GetProductList(stateid);
             return Ok(strJson);
         }
 
@@ -110,6 +111,11 @@ namespace SaAPI.Controllers
         #endregion
 
         #region 订单相关
+        /// <summary>
+        /// 查询用户订单列表
+        /// </summary>
+        /// <param name="UserId">用户ID</param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/GetOrderListByUserId")]
         public IHttpActionResult GetOrderListByUserId(string UserId)
@@ -119,6 +125,11 @@ namespace SaAPI.Controllers
             return Ok(strJson);
         }
 
+        /// <summary>
+        /// 查询订单详情
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/GetDetailByOrderId")]
         public IHttpActionResult GetDetailByOrderId(string OrderId)
@@ -128,6 +139,12 @@ namespace SaAPI.Controllers
             return Ok(strJson);
         }
 
+        /// <summary>
+        /// 修改订单状态
+        /// </summary>
+        /// <param name="OrderId"></param>
+        /// <param name="Stateid"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/UpdateStateid")]
         public IHttpActionResult UpdateStateid(string OrderId, string Stateid)
@@ -139,6 +156,11 @@ namespace SaAPI.Controllers
         #endregion
 
         #region 购物车相关
+        /// <summary>
+        /// 获取用户购物车列表
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/GetCartListByUserid")]
         public IHttpActionResult GetCartListByUserid(string UserId)
@@ -148,6 +170,12 @@ namespace SaAPI.Controllers
             return Ok(strJson);
         }
 
+        /// <summary>
+        /// 修改购物车
+        /// </summary>
+        /// <param name="Cartid"></param>
+        /// <param name="CartNum"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/UpdateCartNum")]
         public IHttpActionResult UpdateCartNum(string Cartid, int CartNum)
@@ -157,6 +185,11 @@ namespace SaAPI.Controllers
             return Ok(strJson);
         }
 
+        /// <summary>
+        /// 添加购物车
+        /// </summary>
+        /// <param name="MJson"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/AddCart")]
         public IHttpActionResult AddCart(string MJson)
@@ -168,6 +201,11 @@ namespace SaAPI.Controllers
         #endregion
 
         #region 收货地址相关
+        /// <summary>
+        /// 获取用户收货地址
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/GetAddressListByUserid")]
         public IHttpActionResult GetAddressListByUserid(string UserId)
@@ -177,6 +215,11 @@ namespace SaAPI.Controllers
             return Ok(strJson);
         }
 
+        /// <summary>
+        /// 修改收货地址
+        /// </summary>
+        /// <param name="MJson"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/UpdateAll")]
         public IHttpActionResult UpdateAll(string MJson)

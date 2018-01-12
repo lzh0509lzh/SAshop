@@ -257,14 +257,14 @@ namespace Fm.BLL{
         /// <summary>
         /// 获得product_info数据列表(独立连接)
         /// </summary>
-        public List<Fm.Entity.product_info> GetList()
+        public List<Fm.Entity.product_info> GetList(int stateid)
         {
             List<Fm.Entity.product_info> myList = new List<Fm.Entity.product_info>();
             DBHelper myHelperMySQL = new DBHelper();
             myHelperMySQL.connectionStr = MySQLConfig.ConnStringCenter;
             try
             {
-                myList = this.GetList(myHelperMySQL);
+                myList = this.GetList(myHelperMySQL, stateid);
             }
             catch (Exception errorStr)
             {
@@ -286,22 +286,22 @@ namespace Fm.BLL{
         /// 获得product_info数据列表，(方法外传入连接对象，需要人工关闭连接)
         /// <param name="myHelperMySQL">自定义数据连接对象实例</param>
         /// </summary>
-        public List<Fm.Entity.product_info> GetList(DBHelper myHelperMySQL)
+        public List<Fm.Entity.product_info> GetList(DBHelper myHelperMySQL,int stateid)
         {
             List<Fm.Entity.product_info> myList = new List<Fm.Entity.product_info>();
 
             //字段
             string fieldSelect = "";
-            fieldSelect = "a.ProductId, a.ProductName, a.ProductPrice ,a.MainImgUrl,a.StoreNum,a.SalesNum";
+            fieldSelect = "a.ProductId, a.ProductName,a.ProductDetail, a.ProductPrice ,a.MainImgUrl,a.StoreNum,a.SalesNum";
 
             //条件
-            string strWhere = "stateid=@stateid";
+            string strWhere = "stateid >= @stateid";
             //排序
             string fieldOrder = "createdate desc";
             //参数
             MySqlParameter[] parms =
             {
-                new MySqlParameter("stateid", 1)
+                new MySqlParameter("stateid", stateid)
             };
 
             myList = dal.GetList(myHelperMySQL, 0, fieldSelect, strWhere, fieldOrder, parms);
