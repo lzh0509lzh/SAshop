@@ -310,5 +310,14 @@ namespace Fm.BLL{
             return myList;
         }
         #endregion
+
+        #region ADD
+        public void ADD(Fm.Entity.orderlist model)
+        {
+            DBHelper myHelperMySQL = new DBHelper();
+            myHelperMySQL.connectionStr = MySQLConfig.ConnStringCenter;
+            dal.Add(myHelperMySQL, model);
+        }
+        #endregion
     }
 }

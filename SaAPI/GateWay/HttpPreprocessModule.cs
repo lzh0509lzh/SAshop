@@ -3,6 +3,7 @@ using SaAPI.Context;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -253,14 +254,17 @@ namespace SaAPI
 
         public void Init(HttpApplication context)
         {
-            //var asyncHelper = new EventHandlerTaskAsyncHelper(context_OnBeginRequestAsync);
-            //context.AddOnBeginRequestAsync(asyncHelper.BeginEventHandler, asyncHelper.EndEventHandler);
+            var asyncHelper = new EventHandlerTaskAsyncHelper(context_OnBeginRequestAsync);
+            context.AddOnBeginRequestAsync(asyncHelper.BeginEventHandler, asyncHelper.EndEventHandler);
 
-            //asyncHelper = new EventHandlerTaskAsyncHelper(context_OnAuthenticateRequestAsync);
-            //context.AddOnAuthenticateRequestAsync(asyncHelper.BeginEventHandler, asyncHelper.EndEventHandler);
+            asyncHelper = new EventHandlerTaskAsyncHelper(context_OnAuthenticateRequestAsync);
+            context.AddOnAuthenticateRequestAsync(asyncHelper.BeginEventHandler, asyncHelper.EndEventHandler);
 
             //asyncHelper = new EventHandlerTaskAsyncHelper(context_OnPostAuthorizationRequestAsync);
             //context.AddOnPostAuthorizeRequestAsync(asyncHelper.BeginEventHandler, asyncHelper.EndEventHandler);
+
+            asyncHelper = new EventHandlerTaskAsyncHelper(context_OnEndRequestAsync);
+            context.AddOnEndRequestAsync(asyncHelper.BeginEventHandler, asyncHelper.EndEventHandler);
 
         }
 
@@ -272,10 +276,13 @@ namespace SaAPI
             {
                 return;
             }
-            //app.Context.Items.Add("StartRequestTime", DateTime.Now);
+
+            //HttpApplication中添加 开始时间Items
+            app.Context.Items.Add("StartRequestTime", DateTime.Now);
 
             #region 创建traceId
             var traceId = Guid.NewGuid().ToString().Replace("-", "");
+            app.Context.Items.Add("TraceId", traceId);
             #endregion
 
             #region 白名单
@@ -296,8 +303,6 @@ namespace SaAPI
             //};
             //mockTraceableObj.ContinueOrStartTracing();
             //CallContext.LogicalSetData("TraceId", traceId);
-            //app.Context.Items.Add("TraceId", traceId);
-
 
             #region Url校验
             //if (app.Context.Request.Url.PathAndQuery.Equals("/533b7a9e/Monitor/keepalive"))
@@ -313,21 +318,18 @@ namespace SaAPI
             //    app.Context.ApplicationInstance.CompleteRequest();
             //    return;
             //}
-            #endregion
 
             //Logger.InfoFormat("Receive request {0} {1}", app.Context.Request.HttpMethod, app.Context.Request.Url);
+            #endregion
 
             #region 创建RequestContext对象
             DateTime startTime = DateTime.Now;
             var requestContext = await BuildRequestContextAsync(app.Context, traceId);
             DateTime stopTime = DateTime.Now;
             TimeSpan elapsedTime = stopTime - startTime;
-            #endregion
 
             //Logger.Info("BuildRequestContextAsync elapsedTime: " + elapsedTime);
-
-            // TODO: create event log here
-
+            //TODO: create event log here
             //Logger.InfoFormat("Request context: verb={0}, url={1}, client ip={2}, ActivityId={3}",
             //    requestContext.HttpVerb,
             //    requestContext.Uri,
@@ -335,12 +337,14 @@ namespace SaAPI
             //    requestContext.TraceId);
 
             #region 添加响应Headers
-            //app.Context.Response.Headers.Add(HttpHeaderKey.TraceId, requestContext.TraceId);
+            app.Context.Response.Headers.Add(HttpHeaderKey.TraceId, requestContext.TraceId);
             #endregion
 
             #region 初始化resourcePath
-            //ResourcePath resourcePath = new ResourcePath(app.Context.Request.Url);
-            //requestContext.ResourcePath = resourcePath;
+            ResourcePath resourcePath = new ResourcePath(app.Context.Request.Url);
+            requestContext.ResourcePath = resourcePath;
+            #endregion
+
             #endregion
 
             #region 恶意请求过滤
@@ -400,6 +404,15 @@ namespace SaAPI
             //方法体
             DateTime stopTime = DateTime.Now;
             TimeSpan elapsedTime = stopTime - startTime;
+        }
+
+        private static async Task context_OnEndRequestAsync(object sender, EventArgs e)
+        {
+            var app = sender as HttpApplication;
+            if (app == null)
+            {
+                return;
+            }
 
         }
         public void Dispose()
@@ -407,6 +420,12 @@ namespace SaAPI
             //此处放置清除代码。
         }
 
+        /// <summary>
+        /// RequestContext 构建
+        /// </summary>
+        /// <param name="httpContext"></param>
+        /// <param name="traceId"></param>
+        /// <returns></returns>
         private static async Task<RequestContext> BuildRequestContextAsync(HttpContext httpContext, string traceId)
         {
             var requestContext = new RequestContext
@@ -429,6 +448,7 @@ namespace SaAPI
                 TimeSpan elapsedTime = stopTime - startTime;
                 //Logger.Info("InputStream.CopyToAsync elapsedTime: " + elapsedTime);
                 requestContext.RequestContent = ms.ToArray();
+                string str = System.Text.Encoding.Default.GetString(ms.ToArray());
             }
 
             if (httpContext.Request.Headers.AllKeys.Contains(HttpHeaderKey.AppId))

@@ -6,12 +6,24 @@ using System.Web;
 
 namespace SaAPI.Context
 {
+    /// <summary>
+    /// URl解析
+    /// </summary>
     public class ResourcePath
     {
+        /// <summary>
+        /// 版本号
+        /// </summary>
         public string ApiVersion { get; }
 
+        /// <summary>
+        /// Domain
+        /// </summary>
         public string Path { get; set; }
 
+        /// <summary>
+        /// link参数
+        /// </summary>
         public IList<string> QueryList { get; set; }
 
         public static string[] AvailableApiVersions =

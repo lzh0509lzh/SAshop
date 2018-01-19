@@ -89,6 +89,49 @@ namespace Fm.BLL
         #endregion
 
         #region 订单相关
+        public string CreateOrder(string qJson)
+        {
+            string strJson = "";
+            Entity.DataResponse_Orderrecord Response = new Entity.DataResponse_Orderrecord();
+            orderrecord orderrecord_BLL = new orderrecord();
+            orderlist orderlist_BLL = new orderlist();
+            Entity.orderrecord Recordmodel = new Entity.orderrecord();
+            Entity.orderlist Listmodel = new Entity.orderlist();
+
+            Entity.RequestOrder jsonModle = new Entity.RequestOrder();
+            jsonModle = Newtonsoft.Json.JsonConvert.DeserializeObject<Entity.RequestOrder>(qJson);
+
+            try
+            {
+                Recordmodel.OrderId = ShopUntil.GetOrderID();
+                Recordmodel.Amount = jsonModle.Amount;
+                Recordmodel.PostAmount = jsonModle.PostAmount;
+                Recordmodel.PerName = jsonModle.PerName;
+                Recordmodel.Mobile = jsonModle.Mobile;
+                Recordmodel.Address = jsonModle.Address;
+                Recordmodel.UserId = jsonModle.UserId;
+                Recordmodel.UserName = jsonModle.UserName;
+                Recordmodel.Stateid = jsonModle.Stateid;                
+                Recordmodel.Createdate = jsonModle.Createdate;
+                Recordmodel.RefreshDate = jsonModle.RefreshDate;
+                Recordmodel.Stateid = 0;
+                orderrecord_BLL.ADD(Recordmodel);
+                foreach (var model in jsonModle.olist)
+                {
+                    orderlist_BLL.ADD(model);
+                }
+                Response.Result = true;
+                Response.Msg = "";
+            }
+            catch (Exception ex)
+            {
+                string r = ex.ToString();
+                Response.Result = false;
+                Response.Msg = "数据异常！";
+            }
+            strJson = Newtonsoft.Json.JsonConvert.SerializeObject(Response);
+            return strJson;
+        }
 
         /// <summary>
         /// 根据用户编号查询用户订单列表

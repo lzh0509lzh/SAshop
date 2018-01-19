@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SaAPI</RootNamespace>
     <AssemblyName>SaAPI</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -60,11 +60,11 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Routing" />
@@ -182,23 +182,32 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Context\HttpHeaderkey.cs" />
-    <Compile Include="Context\MemoryCache.cs" />
-    <Compile Include="Context\RequestContext.cs" />
-    <Compile Include="Context\ResourcePath.cs" />
-    <Compile Include="Context\ServiceContext.cs" />
+    <Compile Include="GateWay\Context\HttpHeaderkey.cs" />
+    <Compile Include="GateWay\Context\MemoryCache.cs" />
+    <Compile Include="GateWay\Context\RequestContext.cs" />
+    <Compile Include="GateWay\Context\ResourcePath.cs" />
+    <Compile Include="GateWay\Context\ServiceContext.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="HttpPreprocessModule.cs" />
-    <Compile Include="Models\AuthenticateManager.cs" />
-    <Compile Include="Models\HttpUtils.cs" />
-    <Compile Include="Models\IAuthenticateManager.cs" />
-    <Compile Include="Models\MyEnumClass.cs" />
+    <Compile Include="GateWay\HttpPreprocessModule.cs" />
+    <Compile Include="GateWay\AuthenticateManager.cs" />
+    <Compile Include="GateWay\HttpUtils.cs" />
+    <Compile Include="GateWay\IAuthenticateManager.cs" />
+    <Compile Include="GateWay\MyEnumClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utility\TraceableLogger.cs" />
+    <Compile Include="Utility\Error\EnumerableExtension.cs" />
+    <Compile Include="Utility\Error\ErrorCode.cs" />
+    <Compile Include="Utility\Error\ErrorMessage.cs" />
+    <Compile Include="Utility\Error\ErrorMessageHandler.cs" />
+    <Compile Include="Utility\Error\ExceptionExtension.cs" />
+    <Compile Include="Utility\Error\FrontendException.cs" />
+    <Compile Include="Utility\Error\HttpErrorResponse.cs" />
+    <Compile Include="Utility\Error\ObjectExtension.cs" />
+    <Compile Include="Utility\Logging\TraceableLogger.cs" />
+    <Compile Include="WxPay\WxPayUnifiedOrder.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -256,6 +265,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -276,6 +286,14 @@
     <ProjectReference Include="..\Fm.BLL\Fm.BLL.csproj">
       <Project>{0bfc09cd-6a9b-44ca-8d48-b4064251b52b}</Project>
       <Name>Fm.BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fm.Core\Fm.Core.csproj">
+      <Project>{270b5e44-c8f0-4826-ba59-70e856ff5f4c}</Project>
+      <Name>Fm.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fm.Entity\Fm.Entity.csproj">
+      <Project>{4bd08463-2334-4761-a886-c77531013d96}</Project>
+      <Name>Fm.Entity</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

@@ -48,6 +48,8 @@
     <Compile Include="DEncrypt\RSACryption.cs" />
     <Compile Include="PagingUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShopUntil.cs" />
+    <Compile Include="wxUntil.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

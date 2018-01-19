@@ -1,0 +1,6 @@
+C:\Users\v-zhli3\Desktop\SevenApple\Test\bin\Debug\Test.exe.config
+C:\Users\v-zhli3\Desktop\SevenApple\Test\bin\Debug\Test.exe
+C:\Users\v-zhli3\Desktop\SevenApple\Test\bin\Debug\Test.pdb
+C:\Users\v-zhli3\Desktop\SevenApple\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
+C:\Users\v-zhli3\Desktop\SevenApple\Test\obj\Debug\Test.exe
+C:\Users\v-zhli3\Desktop\SevenApple\Test\obj\Debug\Test.pdb

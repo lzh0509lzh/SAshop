@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaAPI", "SaAPI\SaAPI.csproj
 		{0BFC09CD-6A9B-44CA-8D48-B4064251B52B} = {0BFC09CD-6A9B-44CA-8D48-B4064251B52B}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{341EE0A6-59B3-4FC4-A59D-B116C60F0E54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{E7F0FC09-FBF3-434D-92C9-ADDB4FE6C665}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7F0FC09-FBF3-434D-92C9-ADDB4FE6C665}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7F0FC09-FBF3-434D-92C9-ADDB4FE6C665}.Release|Any CPU.Build.0 = Release|Any CPU
+		{341EE0A6-59B3-4FC4-A59D-B116C60F0E54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{341EE0A6-59B3-4FC4-A59D-B116C60F0E54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{341EE0A6-59B3-4FC4-A59D-B116C60F0E54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{341EE0A6-59B3-4FC4-A59D-B116C60F0E54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

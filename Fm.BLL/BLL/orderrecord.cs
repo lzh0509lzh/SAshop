@@ -372,5 +372,21 @@ namespace Fm.BLL{
             return iNum;
         }
         #endregion
+
+        #region ADD
+        public void ADD(Entity.orderrecord model)
+        {
+            DBHelper myHelperMySQL = new DBHelper();
+            myHelperMySQL.connectionStr = MySQLConfig.ConnStringCenter;
+            try
+            {
+                dal.Add(myHelperMySQL, model);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+        #endregion
     }
 }

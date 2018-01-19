@@ -57,6 +57,14 @@
     <Compile Include="Entity\wx_requestdata.cs" />
     <Compile Include="Entity\wx_userinfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestJson.cs" />
+    <Compile Include="WxEntity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Fm.Core\Fm.Core.csproj">
+      <Project>{270b5e44-c8f0-4826-ba59-70e856ff5f4c}</Project>
+      <Name>Fm.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

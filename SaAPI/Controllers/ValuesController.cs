@@ -1,15 +1,19 @@
 ﻿using Fm.BLL;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
+using System.Web;
 using System.Web.Http;
 
 namespace SaAPI.Controllers
 {
     public class ValuesController : ApiController
-    {
+    {  
+
         #region 商品相关
         /// <summary>
         /// 获取商品类型列表
@@ -42,32 +46,33 @@ namespace SaAPI.Controllers
         /// <param name="stateid">1全部，2首页</param>
         /// <returns>
         /// {
-        ///     "List":[
+        ///     "list":[
         ///         {
-        ///             "ProductId":""          商品编号
-        ///             "ProductName":""        商品名称
-        ///             "ProductPrice":19.9     标价
-        ///             "MainImgUrl":""         商品图片
-        ///             "StoreNum":10           商品库存
-        ///             "SalesNum":5            商品销量
-        ///             "TypeId":123            商品类型Id
-        ///             "Specifications":""     商品规格
-        ///             "ProductWeight":""      商品单位重量(kg）
-        ///             "ProductDetail":""      商品描述
-        ///             "MadeFactor":""         所属公司
-        ///             "MadeHome":""           商品产地
-        ///             "Operator":""           操作人（默认为Admin）
-        ///             "StateId":1             用户状态（默认为1）
-        ///             "CreateDate":""         创建时间
-        ///             "RefreshDate":""        更新时间
+        ///             "productid":""          商品编号
+        ///             "productname":""        商品名称
+        ///             "productprice":19.9     标价
+        ///             "mainimgurl":""         商品图片
+        ///             "storenum":10           商品库存
+        ///             "salesnum":5            商品销量
+        ///             "typeid":123            商品类型id
+        ///             "specifications":""     商品规格
+        ///             "productweight":""      商品单位重量(kg）
+        ///             "productdetail":""      商品描述
+        ///             "madefactor":""         所属公司
+        ///             "madehome":""           商品产地
+        ///             "operator":""           操作人（默认为admin）
+        ///             "stateid":1             用户状态（默认为1）
+        ///             "createdate":""         创建时间
+        ///             "refreshdate":""        更新时间
         ///         }
         ///     ]
         /// }
         /// </returns>
         [HttpPost]
         [Route("SevenApple/GetProductList")]
-        public IHttpActionResult GetProductList(int stateid)
+        public IHttpActionResult GetProductList()
         {
+            int stateid =Convert.ToInt32(HttpContext.Current.Request.Form["TypeId"]);
             LzHandle Handle = new LzHandle();
             string strJson = Handle.GetProductList(stateid);
             return Ok(strJson);
@@ -102,8 +107,10 @@ namespace SaAPI.Controllers
         /// </returns>
         [HttpPost]
         [Route("SevenApple/GetProductListByTypeId")]
-        public IHttpActionResult GetProductListByTypeId(string TypeId)
+        public IHttpActionResult GetProductListByTypeId()
         {
+            HttpRequest MyRequest = HttpContext.Current.Request;
+            var TypeId = MyRequest.Form["TypeId"];
             LzHandle Handle = new LzHandle();
             string strJson = Handle.GetProductListByTypeId(TypeId);
             return Ok(strJson);
@@ -118,8 +125,9 @@ namespace SaAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/GetOrderListByUserId")]
-        public IHttpActionResult GetOrderListByUserId(string UserId)
+        public IHttpActionResult GetOrderListByUserId()
         {
+            string UserId=HttpContext.Current.Request.Form["UserId"];
             LzHandle Handle = new LzHandle();
             string strJson = Handle.GetListByUserId(UserId);
             return Ok(strJson);
@@ -132,8 +140,9 @@ namespace SaAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/GetDetailByOrderId")]
-        public IHttpActionResult GetDetailByOrderId(string OrderId)
+        public IHttpActionResult GetDetailByOrderId()
         {
+            string OrderId = HttpContext.Current.Request.Form["OrderId"];
             LzHandle Handle = new LzHandle();
             string strJson = Handle.GetDetailByOrderId(OrderId);
             return Ok(strJson);
@@ -147,10 +156,24 @@ namespace SaAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/UpdateStateid")]
-        public IHttpActionResult UpdateStateid(string OrderId, string Stateid)
+        public IHttpActionResult UpdateStateid()
         {
+            string OrderId = HttpContext.Current.Request.Form["OrderId"];
+            string Stateid = HttpContext.Current.Request.Form["Stateid"];
             LzHandle Handle = new LzHandle();
             string strJson = Handle.UpdateStateid(OrderId, Stateid);
+            return Ok(strJson);
+        }
+
+        /// <summary>
+        /// 创建订单
+        /// </summary>
+        /// <returns></returns>
+        public IHttpActionResult CreateOrder()
+        {
+            string qJson = HttpContext.Current.Request.Form["strJson"];
+            LzHandle Handle = new LzHandle();
+            string strJson = Handle.CreateOrder(qJson);
             return Ok(strJson);
         }
         #endregion
@@ -163,8 +186,9 @@ namespace SaAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/GetCartListByUserid")]
-        public IHttpActionResult GetCartListByUserid(string UserId)
+        public IHttpActionResult GetCartListByUserid()
         {
+            string UserId = HttpContext.Current.Request.Form["UserId"];
             LzHandle Handle = new LzHandle();
             string strJson = Handle.GetListByUserid(UserId);
             return Ok(strJson);
@@ -178,8 +202,10 @@ namespace SaAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/UpdateCartNum")]
-        public IHttpActionResult UpdateCartNum(string Cartid, int CartNum)
+        public IHttpActionResult UpdateCartNum()
         {
+            string Cartid = HttpContext.Current.Request.Form["Cartid"];
+            int CartNum =Convert.ToInt32(HttpContext.Current.Request.Form["CartNum"]);
             LzHandle Handle = new LzHandle();
             string strJson = Handle.UpdateCartNum(Cartid, CartNum);
             return Ok(strJson);
@@ -192,8 +218,9 @@ namespace SaAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/AddCart")]
-        public IHttpActionResult AddCart(string MJson)
+        public IHttpActionResult AddCart()
         {
+            string MJson = HttpContext.Current.Request.Form["MJson"];
             LzHandle Handle = new LzHandle();
             string strJson = Handle.AddCart(MJson);
             return Ok(strJson);
@@ -208,8 +235,9 @@ namespace SaAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/GetAddressListByUserid")]
-        public IHttpActionResult GetAddressListByUserid(string UserId)
+        public IHttpActionResult GetAddressListByUserid()
         {
+            string UserId = HttpContext.Current.Request.Form["UserId"];
             LzHandle Handle = new LzHandle();
             string strJson = Handle.GetAddressListByUserid(UserId);
             return Ok(strJson);
@@ -222,8 +250,9 @@ namespace SaAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("SevenApple/UpdateAll")]
-        public IHttpActionResult UpdateAll(string MJson)
+        public IHttpActionResult UpdateAll()
         {
+            string MJson = HttpContext.Current.Request.Form["MJson"];
             LzHandle Handle = new LzHandle();
             string strJson = Handle.UpdateAll(MJson);
             return Ok(strJson);

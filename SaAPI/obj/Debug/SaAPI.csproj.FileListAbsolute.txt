@@ -93,3 +93,5 @@ C:\Users\v-zhli3\Desktop\SevenApple\SaAPI\bin\zh-Hans\System.Web.WebPages.Razor.
 C:\Users\v-zhli3\Desktop\SevenApple\SaAPI\obj\Debug\SaAPI.csprojResolveAssemblyReference.cache
 C:\Users\v-zhli3\Desktop\SevenApple\SaAPI\obj\Debug\SaAPI.dll
 C:\Users\v-zhli3\Desktop\SevenApple\SaAPI\obj\Debug\SaAPI.pdb
+C:\Users\v-zhli3\Desktop\SevenApple\SaAPI\bin\Fm.Core.dll
+C:\Users\v-zhli3\Desktop\SevenApple\SaAPI\bin\Fm.Core.pdb
